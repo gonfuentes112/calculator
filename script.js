@@ -14,41 +14,55 @@ const divide = function(a, b) {
     return a / b;
 }
 
-const opMap = new Map([['+', add], ['-', subtract], ['*', multiply], ['/', divide]]);
+const opMap = new Map([["+", add], ["-", subtract], ["*", multiply], ["/", divide]]);
 let operatorA, operatorB;
 
 function operate(operatorA, operatorB, operationButton) {
     const operation = opMap.get(operationButton);
     return operation(operatorA, operatorB);
 }
-const DEFAULT_DISPLAY = '0123456789';
-const topDisplay = document.getElementById('topdisplay');
-const bottomDisplay = document.getElementById('bottomdisplay');
-const numpad = document.getElementById('numpad');
+const DEFAULT_DISPLAY = "0123456789";
+const MAX_NUM = 9999999999999999;
+const MIN_NUM = -999999999999999;
+const topDisplay = document.getElementById("topdisplay");
+const bottomDisplay = document.getElementById("bottomdisplay");
+const numpad = document.getElementById("numpad");
 
 function clear(){
     topDisplay.innerHTML = "";
-    bottomDisplay.innerText = DEFAULT_DISPLAY;
-    display.style.color = "rgb(150, 147, 147)";
+    bottomDisplay.innerText = "";
 
 };
 
 function backspace() {
-    //TODO
+    if (bottomDisplay.innerText) {
+        bottomDisplay.innerText = bottomDisplay.innerText.slice(0, -1);
+    }
 }
 
 function enterNumKey(event) {
     const numKey = event.target;
-    if (!(numKey.classList.contains('numbutton'))) {
+    if (!(numKey.classList.contains("numbutton"))) {
         return;
     }    
     if (numKey.id === "clear") {
         clear();
         return;
     }
+    if (numKey.id === "backspace") {
+        backspace();
+        return;
+    }
+    const currentText = bottomDisplay.innerText;
+    if (currentText.startsWith("0")){
+        bottomDisplay.innerText = "";
+    }
+    if (currentText.length < 16) {
+        bottomDisplay.innerText = bottomDisplay.innerText + numKey.id;
+    }
 
 }
 
-numpad.addEventListener('click', enterNumKey);
+numpad.addEventListener("click", enterNumKey);
 
-clear();
+bottomDisplay.innerText = DEFAULT_DISPLAY;
