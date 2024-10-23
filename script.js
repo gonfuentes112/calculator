@@ -24,12 +24,31 @@ function operate(operatorA, operatorB, operationButton) {
 const DEFAULT_DISPLAY = '0123456789';
 const topDisplay = document.getElementById('topdisplay');
 const bottomDisplay = document.getElementById('bottomdisplay');
+const numpad = document.getElementById('numpad');
 
 function clear(){
-    topDisplay.innerHTML = ""
+    topDisplay.innerHTML = "";
     bottomDisplay.innerText = DEFAULT_DISPLAY;
     display.style.color = "rgb(150, 147, 147)";
 
+};
+
+function backspace() {
+    //TODO
 }
+
+function enterNumKey(event) {
+    const numKey = event.target;
+    if (!(numKey.classList.contains('numbutton'))) {
+        return;
+    }    
+    if (numKey.id === "clear") {
+        clear();
+        return;
+    }
+
+}
+
+numpad.addEventListener('click', enterNumKey);
 
 clear();

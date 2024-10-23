@@ -42,6 +42,7 @@ body {
     background-color: aqua;
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 #topdisplay,
@@ -49,14 +50,19 @@ body {
     height: 50%;
     width: 100%;
     text-align: end;
+    display: flex;
+
 }
 
 #topdisplay {
     font-size: 1.5rem;
+    justify-content: end;
 }
 
 #bottomdisplay {
-    font-size: 5.5rem;
+    font-size: 3.5rem;
+    flex-direction: column-reverse;
+    align-items: flex-end;
 }
 
 #buttons {
@@ -64,6 +70,7 @@ body {
     justify-content: space-between;
     height: 70%;
     width: 100%;
+    flex: 1;
 }
 
 #numpad, #operators {
