@@ -4,28 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
     <div id="main">
-        <div id="topborder"></div>
-        <div id="display"></div>
-        <div id="numpad">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div id="topborder">CALCULATOR</div>
+        <div id="display">
+            <div id="topdisplay">aaaaaaaaaa</div>
+            <div id="bottomdisplay"></div>
         </div>
-        <div id="operators"></div>
+        <div id="buttons">
+        <div id="numpad">
+                <button class="numbutton" id="1">1</button>
+                <button class="numbutton" id="2">2</button>
+                <button class="numbutton" id="3">3</button>
+                <button class="numbutton" id="4">4</button>
+                <button class="numbutton" id="5">5</button>
+                <button class="numbutton" id="6">6</button>
+                <button class="numbutton" id="7">7</button>
+                <button class="numbutton" id="8">8</button>
+                <button class="numbutton" id="9">9</button>
+                <button class="numbutton" id="0">0</button>
+                <button class="numbutton" id="clear">clear</button>
+                <button class="numbutton" id="backspace">⌫</button>
+            </div>
+            <div id="operators">
+                <button class="operator" id="add">+</button>
+                <button class="operator" id="subtract">-</button>
+                <button class="operator" id="multiply">*</button>
+                <button class="operator" id="divide">/</button>
+                <button class="operator" id="equal">=</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>
