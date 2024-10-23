@@ -41,24 +41,6 @@ body {
     background-color: aqua;
     display: flex;
     flex-direction: column;
-    flex: 1;
-}
-
-#topdisplay,
-#bottomdisplay {
-    height: 50%;
-    width: 100%;
-    text-align: end;
-    display: flex;
-
-}
-
-#topdisplay {
-    font-size: 1.5rem;
-    justify-content: end;
-}
-
-#bottomdisplay {
     font-size: 3.5rem;
     flex-direction: column-reverse;
     align-items: flex-end;
@@ -69,23 +51,26 @@ body {
     justify-content: space-between;
     height: 70%;
     width: 100%;
-    flex: 1;
+
 }
 
-#numpad, #operators {
+#numpad, #operatorpad {
     display: flex;
     flex-wrap: wrap;
     width: 50%;
+    margin: 10px;
 }
 
 button {
     border-radius: 10px;
     border: 1px solid black;
     font-size: 3rem;
+
 }
 
 .numbutton {
     width: 30%;
+    margin: 1px;
 }
 
 .operator {
