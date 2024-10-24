@@ -53,15 +53,21 @@ function backspace() {
 }
 
 function enterNumKey(event) {
-    const numKey = event.target;
-    if (!(numKey.classList.contains("numbutton"))) {
-        return;
-    }    
+    let numKey = event.target;
+    if (event.type === 'keydown') {
+        numKey.id = event.key;
+    } else {
+
+        if (!(numKey.classList.contains("numbutton"))) {
+            return;
+        }  
+    }
+  
     if (numKey.id === "clear") {
         clear();
         return;
     }
-    if (numKey.id === "backspace") {
+    if (numKey.id.toLowerCase() === "backspace") {
         backspace();
         return;
     }
@@ -138,3 +144,16 @@ function inputOperator(event) {
 }
 
 operatorPad.addEventListener('click', inputOperator);
+
+function keyboardDelegate(event) {
+    const pressedKey = event.key;
+    if (opMap.has(pressedKey) || pressedKey === "Enter") {
+        inputOperator(event);
+        return;
+    }
+    if (pressedKey >= "0" && pressedKey <= "9" || pressedKey === "Backspace") {
+        enterNumKey(event);
+        return;
+    }
+}
+document.addEventListener('keydown', keyboardDelegate);
