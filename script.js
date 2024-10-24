@@ -147,10 +147,6 @@ operatorPad.addEventListener('click', inputOperator);
 
 function keyboardDelegate(event) {
     const pressedKey = event.key;
-    if (opMap.has(pressedKey) || pressedKey === "Enter") {
-        inputOperator(event);
-        return;
-    }
     if (pressedKey >= "0" && pressedKey <= "9" || pressedKey === "Backspace") {
         enterNumKey(event);
         return;
