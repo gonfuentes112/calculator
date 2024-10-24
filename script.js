@@ -86,6 +86,18 @@ function enoughOperators() {
     return operands.every(operand => operand !== null) && currentOperator;
 }
 
+function formatResult(num) {
+    if (num > MAX_NUM) {
+        return MAX_NUM;
+    }
+    if (num < MIN_NUM) {
+        return MIN_NUM;
+    }
+    if (!Number.isInteger(num)) {
+        return parseFloat(num.toPrecision(8));
+    }
+}
+
 function inputOperator(event) {
     const opKey = event.target;
     if (!(opKey.classList.contains("operator"))) {
@@ -110,7 +122,7 @@ function inputOperator(event) {
     }
 
     if (enoughOperators()) {
-        const result = operate(operands[0], operands[1], currentOperator);
+        const result = formatResult(operate(operands[0], operands[1], currentOperator));
         display.innerText = result;
         operands[0] = Number(result);
         operands[1] = null;
