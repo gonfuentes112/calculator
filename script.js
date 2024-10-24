@@ -1,17 +1,32 @@
+const DEFAULT_DISPLAY = "0";
+const MAX_NUM = 9999999999999999;
+const MIN_NUM = -999999999999999;
+const OP_BUTTONS = ["+", "-", "*", "/"];
+const display = document.getElementById("display");
+const numpad = document.getElementById("numpad");
+const operatorPad = document.getElementById('operatorpad');
+const operands = [null, null];
+let operatorButton = null, currentOperator = null, lastButton = null;
+let clearForNextOperand = false;
+
 const add = function(a, b) {
-	return +a + +b;
+	return a + b;
 };
 
 const subtract = function(a, b) {
-	return +a - +b;
+	return a - b;
 };
 
 const multiply = function(a, b) {
-  return +a * +b;
+  return a * b;
 };
 
 const divide = function(a, b) {
-    return +a / +b;
+    if (b === 0) {
+        display.innerText = null;
+        return;
+    }
+    return a / b;
 }
 
 const opMap = new Map([["+", add], ["-", subtract], ["*", multiply], ["/", divide]]);
@@ -20,18 +35,12 @@ function operate(operatorA, operatorB, operationButton) {
     const operation = opMap.get(operationButton);
     return operation(operatorA, operatorB);
 }
-const DEFAULT_DISPLAY = "0";
-const MAX_NUM = 9999999999999999;
-const MIN_NUM = -999999999999999;
-const OP_BUTTONS = ["+", "-", "*", "/"];
-const display = document.getElementById("display");
-const numpad = document.getElementById("numpad");
-const operatorPad = document.getElementById('operatorpad');
-const operands = ["", ""];
-let currentOperandIndex = 0, operatorButton = "", currentOperator = "";
 
 function clear(){
-    display.innerText = "";
+    display.innerText = "0";
+    operands[0] = null;
+    operands[1] = null;
+    clearForNextOperand = false;
 };
 
 function backspace() {
@@ -57,11 +66,14 @@ function enterNumKey(event) {
         return;
     }
     const currentText = display.innerText;
-    if (currentText.startsWith("0") && !currentText.includes(".")){
+    if ((currentText.startsWith("0") && !currentText.includes(".")) ||
+        clearForNextOperand){
+        clearForNextOperand = false;
         display.innerText = "";
     }
     if (currentText.length < 16) {
         display.innerText += numKey.id;
+        lastButton = numKey;
     }
 
 }
@@ -71,15 +83,7 @@ numpad.addEventListener("click", enterNumKey);
 display.innerText = DEFAULT_DISPLAY;
 
 function enoughOperators() {
-    return operands.every(operand => operand !== "") && operatorButton !== "";
-}
-
-function opButtonAlreadyDisplayed() {
-    let alreadyDisplayed = false;
-    OP_BUTTONS.forEach(button => {
-        alreadyDisplayed ||= display.innerText.includes(button);
-    })
-    return alreadyDisplayed;
+    return operands.every(operand => operand !== null) && currentOperator;
 }
 
 function inputOperator(event) {
@@ -88,26 +92,37 @@ function inputOperator(event) {
         return;
     }
     operatorButton = opKey.id;
-    const displayedOperand = display.innerText;
+
+    if (lastButton.classList.contains("operator") && !enoughOperators()) {
+        currentOperator = operatorButton;
+        lastButton = opKey;
+        return;
+    }
+
+    let displayedOperand = display.innerText;
     if (displayedOperand.startsWith("0") && !displayedOperand.includes(".")){
         displayedOperand = "0";
     }
-    operands[currentOperandIndex] = displayedOperand;
-    currentOperandIndex = (currentOperandIndex + 1) % operands.length;
-    display.innerText += " " + displayedOperand;
+    if (!operands[0]) {
+        operands[0] = Number(displayedOperand);
+    } else {
+        operands[1] = Number(displayedOperand);
+    }
+
     if (enoughOperators()) {
-        const result = operate(operands[0], operands[1], operatorButton);
+        const result = operate(operands[0], operands[1], currentOperator);
         display.innerText = result;
-        operands[0] = result;
-        operands[1] = "";
-        currentOperandIndex = 1;
+        operands[0] = Number(result);
+        operands[1] = null;
+        clearForNextOperand = true;
+        currentOperator = null;
         return;
     }
-    display.innerText += " " + operatorButton;
-    operands[currentOperandIndex] = displayedOperand;
     if (operatorButton !== "=") {
         currentOperator = operatorButton;
     }
+    lastButton = opKey;
+    clearForNextOperand = true;
 }
 
 operatorPad.addEventListener('click', inputOperator);
